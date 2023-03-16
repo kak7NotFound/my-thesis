@@ -1,8 +1,11 @@
 import os
+import threading
 
-from flask import Flask, request, url_for
+from flask import Flask, request, url_for, render_template
 from werkzeug.utils import secure_filename, redirect
 
+import gui
+import tests
 import util
 from util import *
 
@@ -10,8 +13,13 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
-    return util.JsonManager.test()
+def index():
+    return render_template('index.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('main.html')
 
 
 @app.route('/decrypt', methods=['GET', 'POST'])
@@ -33,6 +41,10 @@ def upload_file():
     '''
 
 
+@app.route('/test', methods=['GET', 'POST'])
+def get_test_page():
+    return render_template('index.html')
+
 
 def main():
     app.run()
@@ -40,3 +52,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
