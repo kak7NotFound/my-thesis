@@ -20,6 +20,18 @@
         "answer": "20"
       }
     },
+     {
+      "type": "SINGLE",
+      "question": {
+        "text": "Какой язык программирования лучше использовать для создания веб-приложений?",
+        "options": [
+          "Python",
+          "JavaScript",
+          "Ruby"
+        ],
+        "answer": "20"
+      }
+    },
     {
       "type": "ORDER",
       "question": {

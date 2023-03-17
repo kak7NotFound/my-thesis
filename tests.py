@@ -42,15 +42,15 @@ class Test:
         self.timeLimitSecs: int = timeLimitSecs
 
         self.questions: list[Question] = list()
-
         for q in questions_as_list:
             q: dict
-            self.questions.append(Question(QuestionType[q.get("type")], q.get("text"), q.get("options"), q.get("answer")))
+            # print(q)
+            self.questions.append(Question(QuestionType[q.get("type")], q.get("question").get("text"), q.get("question").get("options"), q.get("question").get("answer")))
 
 
 class Question:
     def __init__(self, question_type, text, options, answer=None):
-        print(question_type)
+        # print(question_type, text, options, answer)
         self.question_type: QuestionType = question_type
         self.text: str = text
         self.options: list = options
