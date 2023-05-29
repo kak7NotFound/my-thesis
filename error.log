@@ -1,0 +1,9 @@
+
+[2023-05-29 20:12:16] Traceback (most recent call last):
+  File "C:\Users\kak7\Documents\GitHub\my-thesis\gui.py", line 64, in <module>
+    create_webview_window()
+  File "C:\Users\kak7\Documents\GitHub\my-thesis\gui.py", line 36, in create_webview_window
+    browser = cef.CreateBrowserSync(off_screen=True)
+  File "cefpython_py38.pyx", line 677, in cefpython_py38.CreateBrowserSync
+Exception: Invalid argument: off_screen
+

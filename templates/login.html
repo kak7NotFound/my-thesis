@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" style="padding-bottom: 0px;margin-bottom: 0px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/Black-Navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Search-Form-.css">
+    <link rel="stylesheet" href="assets/css/Search-Input-responsive.css">
+</head>
+
+<body class="text-start" style="/*background: url(&quot;design.jpg&quot;);*/background-position: 0 -60px;margin-bottom: -2px;">
+    <div>
+        <div class="row d-flex justify-content-center" style="margin-right: 0px;margin-left: 0px;">
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-5">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
+                            </svg></div>
+                        <form class="text-center" method="post" action="http://127.0.0.1:5000/login">
+                            <div class="mb-3"><input class="form-control" type="email" id="login" name="login" placeholder="Логин"></div>
+                            <div class="mb-3"><input class="form-control" type="password" id="password" name="password" placeholder="Пароль"></div>
+                            <div class="mb-3"><a class="btn btn-primary d-block w-100" role="button" id="loginkey" style="border-radius: 15px;border-width: 1px;" onkeyup="handleKeyPress(event)">Войти</a></div>
+                            <div class="mb-3"><a class="btn btn-dark d-block w-100" role="button" href="main.html" style="border-radius: 15px;border-width: 1px;" onclick="setSessionData()">Войти без пароля</a></div>
+                            <p id="wrongpasswordtext" style="font-size: 14px;color: rgb(224,60,60);display: none;text-align: center;">Неверный логин или пароль!</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="assets/js/bold-and-dark.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/logic.js"></script>
+    <script src="assets/js/sha256.js"></script>
+</body>
+
+</html>

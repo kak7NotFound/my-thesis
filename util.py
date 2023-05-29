@@ -1,5 +1,10 @@
 import base64
+import subprocess
+import threading
 from enum import Enum
+
+import pymongo
+from pymongo import MongoClient
 
 
 class Account:
@@ -50,5 +55,42 @@ class JsonManager:
 
     @staticmethod
     def save_encrypted_text(location: str):
-
         return
+
+
+class DataBase:
+
+    db = None
+    do_stop = threading.Event()
+    local_db_thread = None
+
+    def __init__(self):
+        db = MongoClient('mongodb://127.0.0.1:27026', connect=True, serverSelectionTimeoutMS=500)
+
+    def start_local_db():
+        mongo_process = subprocess.Popen(r"C:\Users\kak7\Documents\GitHub\my-thesis\mongo\start.bat")
+        local_db_thread = mongo_process
+
+    # TODO LOCAL MODE (OFFLINE)
+    def create_local_copy_then_close():
+        thread = threading.Thread(target=start_local_db)
+        thread.start()
+        local_db = MongoClient('mongodb://127.0.0.1:27026', connect=True, serverSelectionTimeoutMS=500)
+
+        # todo copy
+        # https://www.mongodb.com/docs/database-tools/
+
+        local_db.close()
+        local_db_thread.terminate()
+
+    try:
+        maindb = MongoClient('mongodb://127.0.0.1:27017', connect=True, serverSelectionTimeoutMS=500)
+        maindb.server_info()
+        db = maindb
+    except pymongo.errors.ConnectionFailure:
+        IS_OFFLINE = True
+        thread = threading.Thread(target=start_local_db)
+        thread.start()
+        db = MongoClient('mongodb://127.0.0.1:27026', connect=True, serverSelectionTimeoutMS=800)
+
+    # print("OFFLINE MODE: ", IS_OFFLINE)

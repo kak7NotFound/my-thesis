@@ -1,56 +1,21 @@
-import subprocess
-import threading
-
-import pymongo
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, jsonify, redirect
 from flask_cors import CORS
-from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 
 import tests
 from util import *
 
-app = Flask(__name__)
-cors = CORS(app)
-cors = CORS(app, resources={
-    r"/*": {
-        "origins": ["*"],
-        "methods": ["GET", "POST"]
-    }
-})
+app = Flask(__name__, static_folder="templates")
+app.static_folder = 'templates'
+app.secret_key = 'your-secret-key'
+cors = CORS(app, resources={r"*": {"origins": "*"}}, supports_credentials=True)
 
 IS_OFFLINE = False
-db = None
-do_stop = threading.Event()
-local_db_thread = None
+
+database = DataBase()
 
 
-def start_local_db():
-    # todo уменьшить задерку, там что-то не работает
-    mongo_process = subprocess.Popen(r"C:\Users\kak7\Documents\GitHub\my-thesis\mongo\start.bat")
-    local_db_thread = mongo_process
-
-
-def create_local_copy_then_close():
-    thread = threading.Thread(target=start_local_db)
-    thread.start()
-    local_db = MongoClient('mongodb://127.0.0.1:27026', connect=True, serverSelectionTimeoutMS=500)
-
-    local_db_thread.terminate()
-
-
-try:
-    maindb = MongoClient('mongodb://127.0.0.1:27017', connect=True, serverSelectionTimeoutMS=500)
-    maindb.server_info()
-    db = maindb
-except pymongo.errors.ConnectionFailure:
-    IS_OFFLINE = True
-    thread = threading.Thread(target=start_local_db)
-    thread.start()
-
-
-db = MongoClient('mongodb://127.0.0.1:27026', connect=True, serverSelectionTimeoutMS=500)
-print("OFFLINE MODE: ", IS_OFFLINE)
+# todo remove db add database()
 
 
 @app.route('/')
@@ -58,11 +23,53 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+
+    collection = database.db['users']['users']
+    result = collection.find_one({
+        'login': data['login'],
+        'password': data['password']
+    })
+    print(result)
+    if result is not None:
+        return jsonify(result['id'])
+    else:
+        return jsonify("None")
+
+
+@app.route('/get_session_data', methods=['GET'])
+def get_session_data():
+    session_data = session.get('user_id', '')
+    return jsonify(session_data)
+
+
+@app.route('/set_session_data', methods=['POST'])
+def set_session_data():
+    data = request.get_json()
+    print(data)
+    session['user_id'] = data['user_id']
+    return jsonify({'message': 'Session value set successfully'})
+
+
 @app.route('/tests', methods=['GET', 'POST'])
-def get_test_list_page():
+def get_test_list_html():
     # todo remove abs path
+
+    # print("GET SESSION DATA " + session)
+    return redirect("tests.html")
     test_template = open(r"C:\Users\kak7\Documents\GitHub\my-thesis\templates\test.html", "r", encoding="utf-8").read()
-    return test_template
+
+    html = ""
+
+    for test in tests.TestManager.get_all_test_as_dict():
+        test: tests.Test
+        # todo доделать хуйню
+        html = html + test_template.replace("{title}", test.title).replace("{author}", test.author).replace(
+            "{test_type}", "тип теста дааа").replace("{test_id}", str(test.test_id))
+
+    return html
 
 
 @app.route('/test', methods=['GET', 'POST'])
@@ -82,8 +89,9 @@ def get_test_page():
 
 @app.route('/about', methods=['GET', 'POST'])
 def get_test_about_page():
-    test: tests.Test = tests.TestManager.test_from_json("test.json")
+    test_id = request.form.get('button_id')
     return render_template('about_test.html')
+    # return open(r"C:\Users\kak7\Documents\GitHub\my-thesis\templates\about_test.html", "r", encoding="utf-8").read()
 
 
 @app.route('/main', methods=['GET', 'POST'])
@@ -111,9 +119,10 @@ def upload_file():
 
 
 def main():
-    app.run()
+    app.run(threaded=False)
 
 
 if __name__ == '__main__':
     main()
-    local_db_thread.terminate()
+
+    # local_db_thread.terminate()

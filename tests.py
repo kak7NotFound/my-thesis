@@ -1,10 +1,12 @@
 import datetime
 import json
 
+import app
 from util import *
 
 
 class TestManager:
+
     def import_manually(self):
         return
 
@@ -21,18 +23,27 @@ class TestManager:
         return
 
     @staticmethod
-    def test_from_json(file_name: str):
-        data: dict = json.loads(open(file_name, "r", encoding="utf-8").read())
-        return Test(data.get("test_id"), data.get("test_type"), data.get("author"), data.get("created_at"),
+    def test_from_json(json_dict: dict):
+        # data: dict = json.loads(json_str)
+        data = json_dict
+        return Test(data.get("test_id"), data.get("title"), data.get("test_type"), data.get("author"), data.get("created_at"),
                     data.get("passingScore"), data.get("attempts"), data.get("timeLimitSecs"), data.get("questions"))
+
+    @staticmethod
+    def get_all_test_as_dict():
+        tests = []
+        for test in app.database.db["tests"]["tests"].find():
+            tests.append(TestManager.test_from_json(test))
+        return tests
 
 
 class Test:
 
     # todo PERMISSIONS?
 
-    def __init__(self, test_id, test_type, author, created_at, passingScore, attempts, timeLimitSecs, questions_as_list):
+    def __init__(self, test_id, title, test_type, author, created_at, passingScore, attempts, timeLimitSecs, questions_as_list):
         self.test_id: int = test_id
+        self.title: str = title
         self.test_type: TestType = test_type
         self.author: str = author
         self.createdAt: datetime.datetime = created_at
