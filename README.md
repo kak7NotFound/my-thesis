@@ -3,4 +3,4 @@
 TODO:
 Logs (login)
 tests of user
-l
+permissions for each test
