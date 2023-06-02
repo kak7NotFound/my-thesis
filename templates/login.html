@@ -7,12 +7,15 @@
     <title>Home - Brand</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/Material%20Icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/Black-Navbar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/Pretty-Search-Form-.css">
+    <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge-profile-pic-with-badge.css">
+    <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge.css">
     <link rel="stylesheet" href="assets/css/Search-Input-responsive.css">
 </head>
 
@@ -27,9 +30,9 @@
                             </svg></div>
                         <form class="text-center" method="post" action="http://127.0.0.1:5000/login">
                             <div class="mb-3"><input class="form-control" type="email" id="login" name="login" placeholder="Логин"></div>
-                            <div class="mb-3"><input class="form-control" type="password" id="password" name="password" placeholder="Пароль"></div>
-                            <div class="mb-3"><a class="btn btn-primary d-block w-100" role="button" id="loginkey" style="border-radius: 15px;border-width: 1px;" onkeyup="handleKeyPress(event)">Войти</a></div>
-                            <div class="mb-3"><a class="btn btn-dark d-block w-100" role="button" href="main.html" style="border-radius: 15px;border-width: 1px;" onclick="setSessionData()">Войти без пароля</a></div>
+                            <div class="mb-3"><input class="form-control" type="password" id="password" name="password" placeholder="Пароль" onkeyup="handleKeyPress(event)"></div>
+                            <div class="mb-3"><a class="btn btn-primary d-block w-100" role="button" id="loginkey" style="border-radius: 15px;border-width: 1px;" onclick="performAction()">Войти</a></div>
+                            <div class="mb-3"><a class="btn btn-dark d-block w-100" role="button" href="hub.html" style="border-radius: 15px;border-width: 1px;" onclick="setSessionData()">Войти без пароля</a></div>
                             <p id="wrongpasswordtext" style="font-size: 14px;color: rgb(224,60,60);display: none;text-align: center;">Неверный логин или пароль!</p>
                         </form>
                     </div>
@@ -43,8 +46,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="assets/js/bold-and-dark.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/logic.js"></script>
+    <script src="assets/js/login_logic.js"></script>
     <script src="assets/js/sha256.js"></script>
+    <script src="assets/js/Sortable.min.js"></script>
 </body>
 
 </html>

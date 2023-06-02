@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>design</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/Material%20Icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/Black-Navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Search-Form-.css">
+    <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge-profile-pic-with-badge.css">
+    <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge.css">
+    <link rel="stylesheet" href="assets/css/Search-Input-responsive.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md py-3">
+        <div class="container">
+            <div class="float-start float-md-end mt-5 mt-md-0 search-area"><i class="fas fa-search float-start search-icon"></i><input class="float-start float-sm-end custom-search-input" type="search" id="searchbar" placeholder="Поиск..." style="color: rgb(255,255,255);"></div>
+            <div class="collapse navbar-collapse text-center" id="navcol-1">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link link-light" href="hub.html">Главная</a></li>
+                    <li class="nav-item text-light"></li>
+                    <li class="nav-item text-light"><a class="nav-link link-light" href="tests">Тесты</a></li>
+                    <li class="nav-item text-light"></li>
+                    <li class="nav-item text-light"></li>
+                    <li class="nav-item text-light"></li>
+                </ul>
+            </div>
+            <div></div><button data-bs-target="#navcol-1" data-bs-toggle="collapse" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button><button class="btn btn-primary" type="button" style="border-radius: 15px;">Профиль</button>
+            <ul></ul>
+        </div>
+    </nav><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+
+    .test-form {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .test-form input,
+    .test-form select {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .btn {
+        border-radius: 15px;
+    }
+
+    .question {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        background-color: rgba(26, 26, 30, 255);
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    .option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .option input[type="text"],
+    .option input[type="file"] {
+        margin-right: 10px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="test-form bg-dark text-white p-4 rounded">
+            <form id="save-test-form">
+                <input type="text" class="form-control mb-2" id="title" placeholder="Название теста" required>
+                <select class="form-control mb-2" id="test_type" required>
+                    <option value="Аттестация">Аттестация</option>
+                    <option value="Образовательные">Образовательные</option>
+                </select>
+                <input type="number" class="form-control mb-2" id="timeLimitSecs"
+                    placeholder="Время на прохождение (мин)" required>
+                <div id="questions-container">
+                </div>
+                <button class="btn btn-primary" id="add-question">+</button>
+                <button type="submit" class="btn btn-primary" id="save-test">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('add-question').addEventListener('click', addQuestion);
+        document.getElementById('save-test-form').addEventListener('submit', saveTest);
+
+        let questionCount = 0;
+
+        function addQuestion() {
+            const questionContainer = document.getElementById('questions-container');
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.innerHTML = `
+        <h5 id="question-number-${questionCount}"><i class="material-icons">drag_indicator</i> Вопрос ${questionCount + 1}</h5>
+        <input type="text" class="form-control mb-2" id="question-${questionCount}" placeholder="Вопрос" required>
+        <div id="options-container-${questionCount}">
+        </div>
+        <button class="btn btn-primary mb-2" onclick="addOption(${questionCount})">Добавить вариант ответа</button>
+        <input type="text" class="form-control mb-2" id="answer-${questionCount}" placeholder="Правильный ответ" required>
+        <button class="btn btn-primary" onclick="removeQuestion(this, ${questionCount})">-</button>
+    `;
+            questionContainer.appendChild(newQuestion);
+            questionCount++;
+
+            new Sortable(questionContainer, {
+                animation: 150,
+                onUpdate: function () {
+                    for (let i = 0; i < questionContainer.children.length; i++) {
+                        questionContainer.children[i].children[0].innerText = `Вопрос ${i + 1}`;
+                    }
+                }
+            });
+        }
+
+        function addOption(questionIndex) {
+            const optionsContainer = document.getElementById(`options-container-${questionIndex}`);
+            const newOption = document.createElement('div');
+            newOption.className = 'option';
+            newOption.innerHTML = `
+        <input type="text" class="form-control" placeholder="Вариант ответа" required>
+        <input type="file" class="form-control">
+        <button class="btn btn-primary" onclick="removeOption(this)">-</button>
+    `;
+            optionsContainer.appendChild(newOption);
+        }
+
+        function removeOption(button) {
+            const optionsContainer = button.parentElement.parentElement;
+            optionsContainer.removeChild(button.parentElement);
+        }
+
+        function removeQuestion(button, questionIndex) {
+            const questionContainer = document.getElementById('questions-container');
+            questionContainer.removeChild(button.parentElement);
+            questionCount--;
+
+            for (let i = questionIndex; i < questionContainer.children.length; i++) {
+                questionContainer.children[i].children[0].innerText = `Вопрос ${i + 1}`;
+            }
+        }
+
+        function saveTest(event) {
+            event.preventDefault();
+
+            const test = {
+                title: document.getElementById('title').value,
+                test_type: document.getElementById('test_type').value,
+                timeLimitSecs: document.getElementById('timeLimitSecs').value,
+                questions: []
+            };
+
+            for (let i = 0; i < questionCount; i++) {
+                const options = [];
+                const optionsContainer = document.getElementById(`options-container-${i}`);
+                for (let j = 0; j < optionsContainer.children.length; j++) {
+                    const option = optionsContainer.children[j].children[0].value;
+                    const file = optionsContainer.children[j].children[1].files[0];
+                    options.push({ option, file });
+                }
+
+                const question = {
+                    text: document.getElementById(`question-${i}`).value,
+                    options,
+                    answer: document.getElementById(`answer-${i}`).value
+                };
+
+                if (!options.some(opt => opt.option === question.answer)) {
+                    alert(`Вопрос ${i + 1} не содержит правильного ответа среди вариантов`);
+                    return;
+                }
+
+                test.questions.push(question);
+            }
+
+            fetch('http://127.0.0.1:5000/save_test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(test)
+            });
+        }
+    </script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="assets/js/bold-and-dark.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/Sortable.min.js"></script>
+</body>
+
+</html>

@@ -20,7 +20,7 @@ def main():
     flask_thread.start()
     thread = flask_thread
 
-    window: webview.Window = webview.create_window(" ", "templates/index.html", width=1400, height=800)
+    window: webview.Window = webview.create_window(" ", "templates/login.html", width=1400, height=800)
     window.events.closed += on_closed
 
     webview.start(debug=True)
